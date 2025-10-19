@@ -26,7 +26,7 @@ KOREA_CHANNELS = {
 }
 
 ALL_CHANNELS = {**JAPAN_CHANNELS, **KOREA_CHANNELS}
-CSV_FILE = 'youtube_stats.csv'
+CSV_FILE = 'youtube-diff-ranking/youtube_stats.csv'
 now = datetime.now()
 timestamp = now.strftime('%Y-%m-%dT%H:%M')
 
@@ -167,6 +167,13 @@ if yesterday_row is not None:
         print(f"{name}: new={new_val}, prev={prev_val}, diff={diff}")
 else:
     print("前日データが存在しないため、韓国グループの差分検証はできません。")
+
+print("🔍 new_row =", new_row)
+
+print("📁 現在の保存先 =", os.path.abspath(CSV_FILE))
+
+print("📅 timestamp =", timestamp)
+print("🕒 実行時刻 =", datetime.now())
 
 print(f"📅 実行時刻：{timestamp}（推奨：毎日11:00 JST以降）")
 
