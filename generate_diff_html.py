@@ -121,22 +121,26 @@ html = f"""
     <h1>YouTube再生数差分ランキング</h1>
     <p>最終更新: {today['timestamp'].strftime('%Y年%m月%d日 %H:%M')}</p>
     
-    <h2>日本グループ 日別再生数ランキング（1日前との差）</h2>
+    <h2>日本グループ 日別再生数ランキング</h2>
+    <h3>（1日前との差）</h3>
     <div class="table-container">
         {make_table(japan_diff, "")}
     </div>
 
-    <h2>日本グループ 週間再生数ランキング（7日前との差）</h2>
+    <h2>日本グループ 週間再生数ランキング</h2>
+    <h3>（7日前との差）</h3>
     <div class="table-container">
         {make_table(japan_weekly_diff, "") if japan_weekly_diff else "<p>データがありません。</p>"}
     </div>
 
-    <h2>韓国グループ 日別再生数ランキング（1日前との差）</h2>
+    <h2>韓国グループ 日別再生数ランキング</h2>
+    <h3>（1日前との差）</h3>
     <div class="table-container">
         {make_table(korea_diff, "")}
     </div>
 
-    <h2>韓国グループ 週間再生数ランキング（7日前との差）</h2>
+    <h2>韓国グループ 週間再生数ランキング</h2>
+    <h3>（7日前との差）</h3>
     <div class="table-container">
         {make_table(korea_weekly_diff, "") if korea_weekly_diff else "<p>データがありません。</p>"}
     </div>
