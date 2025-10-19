@@ -1,0 +1,33 @@
+# .github/workflows/update.yml
+name: Daily YouTube Diff Update
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # UTC 5:00 = JST 14:00
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas python-dotenv requests
+
+      - name: Run update script
+        run: python youtube_data.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add index.html youtube_stats.csv
+          git commit -m "📊 Daily update at 11:00 JST"
+          git push
