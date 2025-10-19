@@ -2,7 +2,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # CSV読み込み
-df = pd.read_csv("youtube-diff-ranking/youtube_stats.csv", encoding="utf-8-sig", skipinitialspace=True)
+df = pd.read_csv("youtube_stats.csv", encoding="utf-8-sig", skipinitialspace=True)
 df["timestamp"] = pd.to_datetime(df["timestamp"].astype(str).str.strip())
 df = df.sort_values("timestamp")
 
@@ -30,12 +30,14 @@ def calc_diff(current, past, group):
 
 # HTML表生成関数（← ここに make_table を書く）
 def make_table(diff_dict, title):
+    if not diff_dict:
+        return f"<h2>{title}</h2><p>データがありません。</p>"
     ranked = sorted(diff_dict.items(), key=lambda x: x[1], reverse=True)
     rows = "".join(
         f"<tr><td>{i+1}</td><td>{name}</td><td>+{int(val):,}回</td></tr>"
         for i, (name, val) in enumerate(ranked)
     )
-    return f"<h2>{title}</h2><table><tr><th>順位</th><th>グループ</th><th>再生数増加</th></tr>{rows}</table>"
+    return f"<table><tr><th>順位</th><th>グループ</th><th>再生数増加</th></tr>{rows}</table>"
 
 # 差分ランキング
 if yesterday is not None:
@@ -48,32 +50,102 @@ korea_weekly_diff = calc_diff(today, week_ago, korea) if week_ago is not None el
     # HTML本文の構築
 html = f"""
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>YouTube差分ランキング</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {{ font-family: sans-serif; padding: 2em; }}
-        table {{ border-collapse: collapse; width: 100%; margin-bottom: 2em; }}
-        th, td {{ border: 1px solid #ccc; padding: 8px; text-align: center; }}
-        th {{ background-color: #f2f2f2; }}
+        body {{
+            font-family: "Helvetica Neue", sans-serif;
+            margin: 0;
+            padding: 1.5em;
+            line-height: 1.6;
+            background-color: #fff;
+            color: #333;
+        }}
+
+        h1, h2 {{
+            margin-top: 1.5em;
+            font-weight: 600;
+            font-size: 1.2em;
+        }}
+
+        .table-container {{
+            overflow-x: auto;
+            margin-bottom: 2em;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }}
+
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 320px;
+        }}
+
+        th, td {{
+            padding: 10px 6px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+            font-size: 0.95em;
+            word-break: break-word;
+        }}
+
+        th {{
+            background-color: #f9f9f9;
+            font-weight: 500;
+        }}
+
+        @media screen and (max-width: 600px) {{
+            body {{
+                padding: 1em;
+            }}
+
+            h1, h2 {{
+                font-size: 1em;
+            }}
+
+            th, td {{
+                padding: 8px 4px;
+                font-size: 0.85em;
+            }}
+
+            table {{
+                font-size: 0.9em;
+            }}
+        }}
     </style>
 </head>
 <body>
     <h1>YouTube再生数差分ランキング</h1>
     <p>最終更新: {today['timestamp'].strftime('%Y年%m月%d日 %H:%M')}</p>
+    
+    <h2>日本グループ 日別再生数ランキング（1日前との差）</h2>
+    <div class="table-container">
+        {make_table(japan_diff, "")}
+    </div>
 
-    {make_table(japan_diff, "日本グループ 日別再生数ランキング（1日前との差）")}
-    {make_table(japan_weekly_diff, "日本グループ 週間再生数ランキング（7日前との差）") if japan_weekly_diff else "<p>🇯🇵 日本グループの7日前データがありません。</p>"}
+    <h2>日本グループ 週間再生数ランキング（7日前との差）</h2>
+    <div class="table-container">
+        {make_table(japan_weekly_diff, "") if japan_weekly_diff else "<p>データがありません。</p>"}
+    </div>
 
-    {make_table(korea_diff, "韓国グループ 日別再生数ランキング（1日前との差）")}
-    {make_table(korea_weekly_diff, "韓国グループ 週間再生数ランキング（7日前との差）") if korea_weekly_diff else "<p>🇰🇷 韓国グループの7日前データがありません。</p>"}
+    <h2>韓国グループ 日別再生数ランキング（1日前との差）</h2>
+    <div class="table-container">
+        {make_table(korea_diff, "")}
+    </div>
+
+    <h2>韓国グループ 週間再生数ランキング（7日前との差）</h2>
+    <div class="table-container">
+        {make_table(korea_weekly_diff, "") if korea_weekly_diff else "<p>データがありません。</p>"}
+    </div>
 </body>
 </html>
 """
 
 # HTMLファイルとして保存
-with open("youtube-diff-ranking/index.html", "w", encoding="utf-8") as f:
+with open("index.html", "w", encoding="utf-8") as f:
     f.write(html)
 print("✅ index.html を生成しました。")
 

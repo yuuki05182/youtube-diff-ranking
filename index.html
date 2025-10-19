@@ -1,24 +1,94 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>YouTube差分ランキング</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: sans-serif; padding: 2em; }
-        table { border-collapse: collapse; width: 100%; margin-bottom: 2em; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-        th { background-color: #f2f2f2; }
+        body {
+            font-family: "Helvetica Neue", sans-serif;
+            margin: 0;
+            padding: 1.5em;
+            line-height: 1.6;
+            background-color: #fff;
+            color: #333;
+        }
+
+        h1, h2 {
+            margin-top: 1.5em;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 2em;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 320px;
+        }
+
+        th, td {
+            padding: 10px 6px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+            font-size: 0.95em;
+            word-break: break-word;
+        }
+
+        th {
+            background-color: #f9f9f9;
+            font-weight: 500;
+        }
+
+        @media screen and (max-width: 600px) {
+            body {
+                padding: 1em;
+            }
+
+            h1, h2 {
+                font-size: 1em;
+            }
+
+            th, td {
+                padding: 8px 4px;
+                font-size: 0.85em;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+        }
     </style>
 </head>
 <body>
     <h1>YouTube再生数差分ランキング</h1>
-    <p>最終更新: 2025年10月19日 22:56</p>
+    <p>最終更新: 2025年10月19日 23:14</p>
 
-    <h2>日本グループ 日別再生数ランキング（1日前との差）</h2><table><tr><th>順位</th><th>グループ</th><th>再生数増加</th></tr><tr><td>1</td><td>僕が見たかった青空</td><td>+576,184回</td></tr><tr><td>2</td><td>AKB48</td><td>+0回</td></tr><tr><td>3</td><td>乃木坂46</td><td>+0回</td></tr><tr><td>4</td><td>ME:I</td><td>+0回</td></tr><tr><td>5</td><td>NiziU</td><td>+0回</td></tr></table>
-    <p>🇯🇵 日本グループの7日前データがありません。</p>
+    <h2>🇯🇵 日本グループ 日別再生数ランキング（1日前との差）</h2>
+    <div class="table-container">
+        <table><tr><th>順位</th><th>グループ</th><th>再生数増加</th></tr><tr><td>1</td><td>僕が見たかった青空</td><td>+576,184回</td></tr><tr><td>2</td><td>AKB48</td><td>+0回</td></tr><tr><td>3</td><td>乃木坂46</td><td>+0回</td></tr><tr><td>4</td><td>ME:I</td><td>+0回</td></tr><tr><td>5</td><td>NiziU</td><td>+0回</td></tr></table>
+    </div>
 
-    <h2>韓国グループ 日別再生数ランキング（1日前との差）</h2><table><tr><th>順位</th><th>グループ</th><th>再生数増加</th></tr><tr><td>1</td><td>ILLIT</td><td>+16,219,586回</td></tr><tr><td>2</td><td>LE SSERAFIM</td><td>+0回</td></tr><tr><td>3</td><td>IVE</td><td>+0回</td></tr><tr><td>4</td><td>Kep1er</td><td>+0回</td></tr><tr><td>5</td><td>NewJeans</td><td>+0回</td></tr></table>
-    <p>🇰🇷 韓国グループの7日前データがありません。</p>
+    <h2>🇯🇵 日本グループ 週間再生数ランキング（7日前との差）</h2>
+    <div class="table-container">
+        <p>データがありません。</p>
+    </div>
+
+    <h2>🇰🇷 韓国グループ 日別再生数ランキング（1日前との差）</h2>
+    <div class="table-container">
+        <table><tr><th>順位</th><th>グループ</th><th>再生数増加</th></tr><tr><td>1</td><td>ILLIT</td><td>+16,219,586回</td></tr><tr><td>2</td><td>LE SSERAFIM</td><td>+0回</td></tr><tr><td>3</td><td>IVE</td><td>+0回</td></tr><tr><td>4</td><td>Kep1er</td><td>+0回</td></tr><tr><td>5</td><td>NewJeans</td><td>+0回</td></tr></table>
+    </div>
+
+    <h2>🇰🇷 韓国グループ 週間再生数ランキング（7日前との差）</h2>
+    <div class="table-container">
+        <p>データがありません。</p>
+    </div>
 </body>
 </html>

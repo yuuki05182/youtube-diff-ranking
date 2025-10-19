@@ -26,7 +26,7 @@ KOREA_CHANNELS = {
 }
 
 ALL_CHANNELS = {**JAPAN_CHANNELS, **KOREA_CHANNELS}
-CSV_FILE = 'youtube-diff-ranking/youtube_stats.csv'
+CSV_FILE = 'youtube_stats.csv'
 now = datetime.now()
 timestamp = now.strftime('%Y-%m-%dT%H:%M')
 
