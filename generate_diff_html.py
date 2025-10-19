@@ -55,6 +55,7 @@ html = f"""
     <meta charset="UTF-8">
     <title>YouTube差分ランキング</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
     <style>
         body {{
             font-family: "Helvetica Neue", sans-serif;
