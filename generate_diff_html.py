@@ -2,7 +2,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # CSV読み込み
-df = pd.read_csv("youtube_stats.csv", encoding="utf-8-sig", skipinitialspace=True)
+df = pd.read_csv("youtube-diff-ranking/youtube_stats.csv", encoding="utf-8-sig", skipinitialspace=True)
 df["timestamp"] = pd.to_datetime(df["timestamp"].astype(str).str.strip())
 df = df.sort_values("timestamp")
 
@@ -73,7 +73,7 @@ html = f"""
 """
 
 # HTMLファイルとして保存
-with open("index.html", "w", encoding="utf-8") as f:
+with open("youtube-diff-ranking/index.html", "w", encoding="utf-8") as f:
     f.write(html)
 print("✅ index.html を生成しました。")
 
