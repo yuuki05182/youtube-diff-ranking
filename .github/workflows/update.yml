@@ -1,10 +1,12 @@
-# .github/workflows/update.yml
 name: Daily YouTube Diff Update
 
 on:
   schedule:
-    - cron: '0 5 * * *'  # UTC 5:00 = JST 14:00
+    - cron: '0 5 * * *'  # JST 14:00（UTC 5:00）
   workflow_dispatch:
+
+permissions:
+  contents: write  # ← これが重要！
 
 jobs:
   update:
@@ -22,12 +24,12 @@ jobs:
         run: pip install pandas python-dotenv requests
 
       - name: Run update script
-        run: python youtube_data.py
+        run: python youtube_data.py && python generate_diff_html.py
 
       - name: Commit and push
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add index.html youtube_stats.csv
-          git commit -m "📊 Daily update at 11:00 JST"
+          git commit -m "📊 Daily update at 11:00 JST" || echo "No changes to commit"
           git push
