@@ -1,16 +1,16 @@
 import pandas as pd
 from datetime import datetime, timedelta
 
-    # CSV読み込み
+# CSV読み込み
 df = pd.read_csv("youtube_stats.csv", encoding="utf-8-sig", skipinitialspace=True)
 df["timestamp"] = pd.to_datetime(df["timestamp"].astype(str).str.strip())
 df = df.sort_values("timestamp")
 
-    # グループ定義
+# グループ定義
 japan = ["僕が見たかった青空", "AKB48", "乃木坂46", "ME:I", "NiziU"]
 korea = ["ILLIT", "LE SSERAFIM", "IVE", "Kep1er", "NewJeans"]
 
-    # 今日・前日データ取得
+# 今日・前日データ取得
 today = df.iloc[-1]
 yesterday_date = (today["timestamp"] - timedelta(days=1)).date()
 yesterday_rows = df[df["timestamp"].dt.date == yesterday_date]
@@ -24,7 +24,7 @@ today_date_str = today["timestamp"].strftime("%Y年%m月%d日")
 yesterday_date_str = yesterday["timestamp"].strftime("%Y年%m月%d日") if yesterday is not None else "前日データなし"
 week_ago_date_str = week_ago["timestamp"].strftime("%Y年%m月%d日") if week_ago is not None else "7日前データなし"
 
-    # 差分計算関数
+# 差分計算関数
 def calc_diff(current, past, group):
         return {
             name: current[name] - past[name]
@@ -32,26 +32,39 @@ def calc_diff(current, past, group):
             if pd.notnull(current[name]) and pd.notnull(past[name])
         }
 
-    # HTML表生成関数（← ここに make_table を書く）
+# HTML表生成関数（← ここに make_table を書く）
 def make_table(diff_dict, title):
-        if not diff_dict:
-            return f"<h2>{title}</h2><p>データがありません。</p>"
-        ranked = sorted(diff_dict.items(), key=lambda x: x[1], reverse=True)
-        rows = "".join(
-            f"<tr><td>{i+1}</td><td>{name}</td><td>+{int(val):,}回</td></tr>"
-            for i, (name, val) in enumerate(ranked)
-        )
-        return f"<table><tr><th>順位</th><th>グループ</th><th>再生数増加</th></tr>{rows}</table>"
+    if not diff_dict:
+        return "<p>データがありません。</p>"
+    ranked = sorted(diff_dict.items(), key=lambda x: x[1], reverse=True)
+    rows = "".join(
+        f"<tr><td>{i+1}</td><td>{name}</td><td>{'+{:,}回'.format(val) if val != 0 else '変化なし（統計未更新の可能性）'}</td></tr>"
+        for i, (name, val) in enumerate(ranked)
+    )
+    return f"<table><tr><th>順位</th><th>グループ</th><th>再生数増加</th></tr>{rows}</table>"
 
-    # 差分ランキング
+# 差分ランキング
 if yesterday is not None:
-        japan_diff = calc_diff(today, yesterday, japan)
-        korea_diff = calc_diff(today, yesterday, korea)
+# 差分計算と表示
+    japan_diff = calc_diff(today, yesterday, japan)
+    korea_diff = calc_diff(today, yesterday, korea)
+
+    print(f"\n📊 {today['timestamp'].strftime('%Y-%m-%d %H:%M')} の日本グループ日別再生数ランキング")
+    ranked_japan = sorted(japan_diff.items(), key=lambda x: x[1], reverse=True)
+    for i, (name, diff) in enumerate(ranked_japan, 1):
+        print(f"{i}位：{name}（+{int(diff):,}回）")
+
+    print(f"\n📊 {today['timestamp'].strftime('%Y-%m-%d %H:%M')} の韓国グループ日別再生数ランキング")
+    ranked_korea = sorted(korea_diff.items(), key=lambda x: x[1], reverse=True)
+    for i, (name, diff) in enumerate(ranked_korea, 1):
+        print(f"{i}位：{name}（+{int(diff):,}回）")
+else:
+    print("⚠️ 前日データが見つかりません。差分ランキングを表示できません。")
 
 japan_weekly_diff = calc_diff(today, week_ago, japan) if week_ago is not None else {}
 korea_weekly_diff = calc_diff(today, week_ago, korea) if week_ago is not None else {}
 
-        # HTML本文の構築
+# HTML本文の構築
 html = f"""
     <!DOCTYPE html>
     <html lang="ja">
@@ -153,20 +166,8 @@ html = f"""
     </html>
     """
 
-    # HTMLファイルとして保存
+# HTMLファイルとして保存
 with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
 print("✅ index.html を生成しました。")
 
-
-print(f"\n📊 {today['timestamp'].strftime('%Y-%m-%d %H:%M')} の日本グループ日別再生数ランキング")
-ranked_japan = sorted(japan_diff.items(), key=lambda x: x[1], reverse=True)
-for i, (name, diff) in enumerate(ranked_japan, 1):
-            print(f"{i}位：{name}（+{int(diff):,}回）")
-
-print(f"\n📊 {today['timestamp'].strftime('%Y-%m-%d %H:%M')} の韓国グループ日別再生数ランキング")
-ranked_korea = sorted(korea_diff.items(), key=lambda x: x[1], reverse=True)
-for i, (name, diff) in enumerate(ranked_korea, 1):
-        print(f"{i}位：{name}（+{int(diff):,}回）")
-else:
-        print("⚠️ 前日データが見つかりません。差分ランキングを表示できません。")

@@ -35,9 +35,14 @@ expected_columns = ['timestamp'] + list(ALL_CHANNELS.keys())
 # CSV読み込み（列名補正付き）
 try:
     df = pd.read_csv(CSV_FILE, encoding='utf-8-sig', skipinitialspace=True)
-    df['timestamp'] = df['timestamp'].astype(str).str.strip()  # ← 追加
-    if list(df.columns) != expected_columns:
-        df.columns = expected_columns
+    df['timestamp'] = df['timestamp'].astype(str).str.strip()
+    
+    if set(df.columns) == set(expected_columns):
+        df = df[expected_columns]
+    else:
+        print("⚠️ 列構成が一致しないため、CSVを初期化します")
+        df = pd.DataFrame(columns=expected_columns)
+
 except FileNotFoundError:
     df = pd.DataFrame(columns=expected_columns)
 
