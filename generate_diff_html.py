@@ -171,7 +171,7 @@ html = f"""
     """
 
 # HTMLファイルとして保存
-with open("index.html", "w", encoding="utf-8") as f:
+with open("docs/index.html", "w", encoding="utf-8") as f:
         f.write(html)
-print("✅ index.html を生成しました。")
+print("✅ docs/index.html を生成しました。")
 
