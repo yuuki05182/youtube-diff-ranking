@@ -38,7 +38,7 @@ try:
     df['timestamp'] = df['timestamp'].astype(str).str.strip()
     
     if set(df.columns) == set(expected_columns):
-        df = df[expected_columns]
+        df = df.loc[:, expected_columns]
     else:
         print("⚠️ 列構成が一致しないため、CSVを初期化します")
         df = pd.DataFrame(columns=expected_columns)
@@ -120,7 +120,7 @@ print(f"\n📊 {timestamp} の日本グループ日別再生数ランキング")
 if diffs_japan:
     ranked_japan = sorted(diffs_japan.items(), key=lambda x: x[1], reverse=True)
     for i, (name, diff) in enumerate(ranked_japan, 1):
-        status = f"+{int(diff):,}回" if diff != 0 else "変化なし（統計未更新の可能性）"
+        status = f"+{int(diff):,}回" if diff != 0 else "未更新"
         print(f"{i}位：{name}（{status}）")
 else:
     print("前回データがないため、日本グループの差分ランキングは表示できません。")
@@ -139,7 +139,7 @@ print(f"\n📊 {timestamp} の韓国グループ日別再生数ランキング")
 if diffs_korea:
     ranked_korea = sorted(diffs_korea.items(), key=lambda x: x[1], reverse=True)
     for i, (name, diff) in enumerate(ranked_korea, 1):
-        status = f"+{int(diff):,}回" if diff != 0 else "変化なし（統計未更新の可能性）"
+        status = f"+{int(diff):,}回" if diff != 0 else "未更新"
         print(f"{i}位：{name}（{status}）")
 else:
     print("前回データがないため、韓国グループの差分ランキングは表示できません。")
