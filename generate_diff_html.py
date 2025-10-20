@@ -105,10 +105,14 @@ html = f"""
             th, td {{
                 padding: 10px 6px;
                 border-bottom: 1px solid #eee;
+                border-right: 1px solid #ddd;  /* ← ここが縦線 */
                 text-align: center;
                 font-size: 0.95em;
                 word-break: break-word;
             }}
+
+            td:last-child, th:last-child {{
+            border-right: none;  /* ← 最後の列は縦線なし */
 
             th {{
                 background-color: #f9f9f9;
