@@ -38,7 +38,7 @@ def make_table(diff_dict, title):
         return "<p>データがありません。</p>"
     ranked = sorted(diff_dict.items(), key=lambda x: x[1], reverse=True)
     rows = "".join(
-        f"<tr><td>{i+1}</td><td>{name}</td><td>{'+{:,}回'.format(val) if val != 0 else '変化なし（統計未更新の可能性）'}</td></tr>"
+        f"<tr><td>{i+1}</td><td>{name}</td><td>{'+{:,}回'.format(val) if val != 0 else '未更新'}</td></tr>"
         for i, (name, val) in enumerate(ranked)
     )
     return f"<table><tr><th>順位</th><th>グループ</th><th>再生数増加</th></tr>{rows}</table>"
