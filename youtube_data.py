@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+from pytz import timezone
 import os
 
 load_dotenv()
@@ -27,7 +28,8 @@ KOREA_CHANNELS = {
 
 ALL_CHANNELS = {**JAPAN_CHANNELS, **KOREA_CHANNELS}
 CSV_FILE = 'youtube_stats.csv'
-now = datetime.now()
+jst = timezone('Asia/Tokyo')
+now = datetime.now(jst)
 timestamp = now.strftime('%Y-%m-%dT%H:%M')
 
 expected_columns = ['timestamp'] + list(ALL_CHANNELS.keys())
