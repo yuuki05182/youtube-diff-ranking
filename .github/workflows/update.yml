@@ -2,7 +2,7 @@ name: Daily YouTube Diff Update
 
 on:
   schedule:
-    - cron: '0 5 * * *'  # JST 14:00（UTC 5:00）
+    - cron: '0 10 * * *'  # JST 19:00（UTC 10:00）
   workflow_dispatch:
 
 permissions:
@@ -11,6 +11,8 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+    env:
+      API_KEY: ${{ secrets.API_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
