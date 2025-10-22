@@ -2,7 +2,7 @@ name: Daily YouTube Diff Update
 
 on:
   schedule:
-    - cron: '0 5 * * *'  # JST 14:00（UTC 5:00）
+    - cron: '0 12 * * *'  # JST 21:00（UTC 12:00）
   workflow_dispatch:
 
 permissions:
