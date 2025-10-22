@@ -144,7 +144,7 @@ html = f"""
         <p>最終更新: {today['timestamp'].strftime('%Y年%m月%d日 %H:%M')}</p>
         
         <h2>日本グループ 日別再生数ランキング</h2>
-        <h3>（{yesterday_date_str} → {today_date_str} の差分）</h3>
+        <h3>（前回の更新日 → {today_date_str} の差分）</h3>
         <div class="table-container">
             {make_table(japan_diff, "")}
         </div>
@@ -156,7 +156,7 @@ html = f"""
         </div>
 
         <h2>韓国グループ 日別再生数ランキング</h2>
-        <h3>（{yesterday_date_str} → {today_date_str} の差分）</h3>
+        <h3>（前回の更新日 → {today_date_str} の差分）</h3>
         <div class="table-container">
             {make_table(korea_diff, "")}
         </div>
