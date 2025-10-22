@@ -107,6 +107,7 @@ df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 # 10日以上前の行を削除
 df['timestamp_dt'] = pd.to_datetime(df['timestamp'], errors='coerce')
 ten_days_ago = now - timedelta(days=10)
+ten_days_ago = ten_days_ago.replace(tzinfo=None)
 df = df[df['timestamp_dt'] >= ten_days_ago]
 df = df.drop(columns=['timestamp_dt'])
 
