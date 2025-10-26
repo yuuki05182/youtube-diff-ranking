@@ -20,9 +20,14 @@ week_ago_date = (today["timestamp"] - timedelta(days=7)).date()
 week_ago_rows = df[df["timestamp"].dt.date == week_ago_date]
 week_ago = week_ago_rows.iloc[-1] if not week_ago_rows.empty else None
 
+two_weeks_ago_date = (today["timestamp"] - timedelta(days=14)).date()
+two_weeks_ago_rows = df[df["timestamp"].dt.date == two_weeks_ago_date]
+two_weeks_ago = two_weeks_ago_rows.iloc[-1] if not two_weeks_ago_rows.empty else None
+
 today_date_str = today["timestamp"].strftime("%Y年%m月%d日")
 yesterday_date_str = yesterday["timestamp"].strftime("%Y年%m月%d日") if yesterday is not None else "前日データなし"
 week_ago_date_str = week_ago["timestamp"].strftime("%Y年%m月%d日") if week_ago is not None else "7日前データなし"
+two_weeks_ago_date_str = two_weeks_ago["timestamp"].strftime("%Y年%m月%d日") if two_weeks_ago is not None else "14日前データなし"
 
 # 差分計算関数
 def calc_diff(current, past, group):
@@ -63,6 +68,9 @@ else:
 
 japan_weekly_diff = calc_diff(today, week_ago, japan) if week_ago is not None else {}
 korea_weekly_diff = calc_diff(today, week_ago, korea) if week_ago is not None else {}
+
+japan_biweekly_diff = calc_diff(today, two_weeks_ago, japan) if two_weeks_ago is not None else {}
+korea_biweekly_diff = calc_diff(today, two_weeks_ago, korea) if two_weeks_ago is not None else {}
 
 # HTML本文の構築
 html = f"""
@@ -155,6 +163,12 @@ html = f"""
             {make_table(japan_weekly_diff, "") if japan_weekly_diff else "<p>データがありません。</p>"}
         </div>
 
+        <h2>日本グループ 2週間再生数ランキング</h2>
+        <h3>（{two_weeks_ago_date_str} → {today_date_str} の差分）</h3>
+        <div class="table-container">
+            {make_table(japan_biweekly_diff, "") if japan_biweekly_diff else "<p>データがありません。</p>"}
+       </div>
+
         <h2>韓国グループ 日別再生数ランキング</h2>
         <h3>（前回の更新日 → {today_date_str} の差分）</h3>
         <div class="table-container">
@@ -165,6 +179,12 @@ html = f"""
         <h3>（{week_ago_date_str} → {today_date_str} の差分）</h3>
         <div class="table-container">
             {make_table(korea_weekly_diff, "") if korea_weekly_diff else "<p>データがありません。</p>"}
+        </div>
+
+        <h2>韓国グループ 2週間再生数ランキング</h2>
+        <h3>（{two_weeks_ago_date_str} → {today_date_str} の差分）</h3>
+        <div class="table-container">
+            {make_table(korea_biweekly_diff, "") if korea_biweekly_diff else "<p>データがありません。</p>"}
         </div>
     </body>
     </html>
