@@ -65,6 +65,8 @@ if yesterday is not None:
         print(f"{i}位：{name}（+{int(diff):,}回）")
 else:
     print("⚠️ 前日データが見つかりません。差分ランキングを表示できません。")
+    japan_diff = {} 
+    korea_diff = {}
 
 japan_weekly_diff = calc_diff(today, week_ago, japan) if week_ago is not None else {}
 korea_weekly_diff = calc_diff(today, week_ago, korea) if week_ago is not None else {}
