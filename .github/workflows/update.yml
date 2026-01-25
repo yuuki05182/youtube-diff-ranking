@@ -23,7 +23,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install pandas python-dotenv requests
+        run: pip install pandas python-dotenv requests pytz
 
       - name: Run update script
         run: python youtube_data.py && python generate_diff_html.py
